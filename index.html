@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pipoca 🐶 — Seu novo melhor amigo está te esperando</title>
+  <meta name="description" content="Leve para casa o Pipoca, um filhote saudável, vacinado e cheio de amor para dar. Garanta já o seu novo melhor amigo!" />
+  <style>
+    :root {
+      --cor-principal: #ff8c42;   /* laranja pipoca */
+      --cor-secundaria: #ffd23f;  /* amarelo milho */
+      --cor-escura: #3a2c20;      /* marrom */
+      --cor-clara: #fff8ee;       /* creme */
+      --cor-destaque: #6a4c93;    /* roxo */
+      --cor-sucesso: #2e9e5b;     /* verde (WhatsApp/confiança) */
+      --sombra: 0 10px 30px rgba(58, 44, 32, 0.15);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: var(--cor-escura);
+      background: var(--cor-clara);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 { line-height: 1.2; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+    /* ===== BARRA DE TOPO (urgência) ===== */
+    .topbar {
+      background: var(--cor-destaque); color: #fff; text-align: center;
+      padding: 10px 16px; font-weight: 600; font-size: 0.95rem;
+    }
+
+    /* ===== NAVBAR ===== */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255, 248, 238, 0.95);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 2px 12px rgba(58, 44, 32, 0.08);
+    }
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 24px; max-width: 1100px; margin: 0 auto;
+    }
+    .logo { font-size: 1.6rem; font-weight: 800; color: var(--cor-principal); }
+    .logo span { color: var(--cor-destaque); }
+    .nav-cta {
+      background: var(--cor-sucesso); color: #fff; text-decoration: none;
+      padding: 10px 22px; border-radius: 50px; font-weight: 700; font-size: 0.95rem;
+      transition: transform 0.2s;
+    }
+    .nav-cta:hover { transform: scale(1.05); }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(135deg, var(--cor-secundaria), var(--cor-principal));
+      padding: 70px 0 90px; position: relative;
+    }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 50px; align-items: center; }
+    .hero-foto {
+      background: rgba(255,255,255,0.25); border-radius: 28px; aspect-ratio: 1;
+      display: flex; align-items: center; justify-content: center; font-size: 11rem;
+      box-shadow: var(--sombra); animation: pula 3s ease-in-out infinite;
+    }
+    @keyframes pula { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.4rem); color: #fff; margin-bottom: 16px;
+      text-shadow: 0 4px 12px rgba(58, 44, 32, 0.25);
+    }
+    .hero p.lead { font-size: 1.2rem; color: #fff; margin-bottom: 24px; }
+    .hero ul { list-style: none; margin-bottom: 28px; }
+    .hero ul li { color: #fff; font-weight: 600; margin-bottom: 8px; font-size: 1.05rem; }
+    .hero ul li::before { content: "✅ "; }
+    @media (max-width: 800px) { .hero-grid { grid-template-columns: 1fr; text-align: center; } .hero-foto { max-width: 320px; margin: 0 auto; font-size: 8rem; } .hero ul { display: inline-block; text-align: left; } }
+
+    /* ===== BOTÕES ===== */
+    .btn {
+      display: inline-block; padding: 16px 38px; background: var(--cor-sucesso); color: #fff;
+      text-decoration: none; font-weight: 700; font-size: 1.1rem; border-radius: 50px;
+      box-shadow: var(--sombra); transition: transform 0.2s, box-shadow 0.2s; border: none; cursor: pointer;
+    }
+    .btn:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 14px 34px rgba(58, 44, 32, 0.25); }
+    .btn-roxo { background: var(--cor-destaque); }
+    .btn-grande { padding: 20px 50px; font-size: 1.25rem; }
+
+    /* ===== SEÇÕES ===== */
+    section { padding: 80px 0; }
+    .section-titulo { text-align: center; font-size: 2.4rem; margin-bottom: 12px; }
+    .section-sub { text-align: center; color: #8a7866; margin-bottom: 50px; font-size: 1.1rem; }
+
+    /* ===== O QUE ESTÁ INCLUSO ===== */
+    .features { background: #fff; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 28px; }
+    .card {
+      background: var(--cor-clara); padding: 36px 28px; border-radius: 20px; text-align: center;
+      transition: transform 0.25s; border: 2px solid transparent;
+    }
+    .card:hover { transform: translateY(-8px); border-color: var(--cor-secundaria); }
+    .card .icone { font-size: 3rem; margin-bottom: 16px; }
+    .card h3 { margin-bottom: 10px; color: var(--cor-destaque); }
+
+    /* ===== PREÇO / OFERTA ===== */
+    .oferta { background: linear-gradient(135deg, var(--cor-clara), #fff0db); }
+    .card-preco {
+      max-width: 460px; margin: 0 auto; background: #fff; border-radius: 28px;
+      padding: 50px 40px; text-align: center; box-shadow: var(--sombra);
+      border: 3px solid var(--cor-secundaria); position: relative;
+    }
+    .selo {
+      position: absolute; top: -16px; left: 50%; transform: translateX(-50%);
+      background: var(--cor-destaque); color: #fff; padding: 6px 22px; border-radius: 50px;
+      font-weight: 700; font-size: 0.9rem; white-space: nowrap;
+    }
+    .preco-antigo { color: #b0a090; text-decoration: line-through; font-size: 1.3rem; }
+    .preco-atual { font-size: 3.4rem; font-weight: 800; color: var(--cor-sucesso); margin: 6px 0; }
+    .preco-atual small { font-size: 1.2rem; color: var(--cor-escura); font-weight: 600; }
+    .preco-lista { list-style: none; text-align: left; margin: 26px 0; }
+    .preco-lista li { margin-bottom: 12px; }
+    .preco-lista li::before { content: "🐾 "; }
+
+    /* ===== DEPOIMENTOS ===== */
+    .depoimentos { background: #fff; }
+    .dep-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px; }
+    .dep {
+      background: var(--cor-clara); border-radius: 20px; padding: 30px; position: relative;
+    }
+    .dep .estrelas { color: var(--cor-secundaria); font-size: 1.2rem; margin-bottom: 10px; }
+    .dep p { font-style: italic; margin-bottom: 16px; }
+    .dep .autor { font-weight: 700; color: var(--cor-destaque); }
+
+    /* ===== CTA FINAL ===== */
+    .cta-final {
+      background: linear-gradient(135deg, var(--cor-destaque), var(--cor-principal));
+      text-align: center; color: #fff; border-radius: 30px; margin: 0 24px; padding: 70px 24px;
+    }
+    .cta-final h2 { font-size: 2.4rem; margin-bottom: 16px; }
+    .cta-final p { font-size: 1.15rem; margin-bottom: 30px; opacity: 0.95; }
+    .cta-final .btn { background: #fff; color: var(--cor-sucesso); }
+
+    /* ===== FAQ ===== */
+    .faq-item {
+      max-width: 760px; margin: 0 auto 14px; background: #fff; border-radius: 16px;
+      padding: 22px 26px; box-shadow: 0 4px 14px rgba(58,44,32,0.06); cursor: pointer;
+    }
+    .faq-item h3 { font-size: 1.1rem; display: flex; justify-content: space-between; align-items: center; }
+    .faq-item p { margin-top: 12px; color: #6a5c4d; display: none; }
+    .faq-item.aberto p { display: block; }
+    .faq-item.aberto h3 span { transform: rotate(45deg); }
+    .faq-item h3 span { transition: transform 0.2s; color: var(--cor-principal); font-size: 1.5rem; }
+
+    /* ===== RODAPÉ ===== */
+    footer { background: var(--cor-escura); color: var(--cor-clara); text-align: center; padding: 40px 24px; margin-top: 60px; }
+    footer .redes { font-size: 1.8rem; margin: 16px 0; }
+    footer .redes a { text-decoration: none; margin: 0 10px; }
+    footer small { opacity: 0.7; }
+
+    /* ===== BOTÃO FLUTUANTE WHATSAPP ===== */
+    .float-wpp {
+      position: fixed; bottom: 24px; right: 24px; z-index: 200;
+      background: var(--cor-sucesso); color: #fff; width: 62px; height: 62px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 1.9rem; text-decoration: none; box-shadow: var(--sombra);
+      animation: pulso 2s infinite;
+    }
+    @keyframes pulso { 0% { box-shadow: 0 0 0 0 rgba(46,158,91,0.5); } 70% { box-shadow: 0 0 0 16px rgba(46,158,91,0); } 100% { box-shadow: 0 0 0 0 rgba(46,158,91,0); } }
+  </style>
+</head>
+<body>
+
+  <!-- BARRA DE URGÊNCIA -->
+  <div class="topbar">🔥 Oferta especial de adoção responsável • Apenas 1 Pipoca disponível!</div>
+
+  <!-- NAVBAR -->
+  <header>
+    <nav>
+      <div class="logo">🐶 Pip<span>oca</span></div>
+      <a href="#comprar" class="nav-cta">Quero o Pipoca 💚</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <h1>Conheça o Pipoca, seu novo melhor amigo 🐾</h1>
+        <p class="lead">Um filhote saudável, vacinado e cheio de amor para dar. Leve para casa muito mais que um cachorro: leve um companheiro para a vida toda.</p>
+        <ul>
+          <li>Vacinado e vermifugado</li>
+          <li>Checkup veterinário em dia</li>
+          <li>Dócil, brincalhão e sociável</li>
+        </ul>
+        <a href="#comprar" class="btn btn-grande">Quero levar o Pipoca 💚</a>
+      </div>
+      <div class="hero-foto">🐶</div>
+    </div>
+  </section>
+
+  <!-- O QUE ESTÁ INCLUSO -->
+  <section class="features">
+    <div class="container">
+      <h2 class="section-titulo">O Pipoca já vai pra casa com tudo isso 🎁</h2>
+      <p class="section-sub">Adoção responsável, sem dor de cabeça</p>
+      <div class="cards">
+        <div class="card">
+          <div class="icone">💉</div>
+          <h3>Saúde garantida</h3>
+          <p>Vacinas em dia, vermifugado e com atestado de saúde do veterinário.</p>
+        </div>
+        <div class="card">
+          <div class="icone">🦴</div>
+          <h3>Kit boas-vindas</h3>
+          <p>Vai com ração inicial, brinquedo e guia de cuidados para os primeiros dias.</p>
+        </div>
+        <div class="card">
+          <div class="icone">❤️</div>
+          <h3>Já socializado</h3>
+          <p>Acostumado com pessoas e outros pets. Dócil e pronto para amar a família.</p>
+        </div>
+        <div class="card">
+          <div class="icone">📞</div>
+          <h3>Suporte pós-adoção</h3>
+          <p>Tire dúvidas com a gente sempre que precisar. Você não fica sozinho.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREÇO / OFERTA -->
+  <section class="oferta" id="comprar">
+    <div class="container">
+      <h2 class="section-titulo">Garanta já o seu Pipoca 💚</h2>
+      <p class="section-sub">Vaga única — quem chegar primeiro leva!</p>
+      <div class="card-preco">
+        <div class="selo">⭐ Oferta de lançamento</div>
+        <p class="preco-antigo">De R$ 1.200</p>
+        <div class="preco-atual">R$ 890 <small>à vista</small></div>
+        <p style="color:#8a7866">ou em até 6x sem juros</p>
+        <ul class="preco-lista">
+          <li>Filhote vacinado e vermifugado</li>
+          <li>Atestado veterinário incluso</li>
+          <li>Kit boas-vindas completo</li>
+          <li>Suporte pós-adoção</li>
+        </ul>
+        <a href="#" class="btn btn-grande" onclick="comprar(event)">Falar no WhatsApp agora 💬</a>
+        <p style="margin-top:16px; font-size:0.9rem; color:#8a7866">🔒 Adoção responsável e segura</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPOIMENTOS -->
+  <section class="depoimentos">
+    <div class="container">
+      <h2 class="section-titulo">Famílias que já levaram um amigo pra casa 🏡</h2>
+      <p class="section-sub">Histórias reais de muito amor</p>
+      <div class="dep-grid">
+        <div class="dep">
+          <div class="estrelas">★★★★★</div>
+          <p>"Melhor decisão da nossa vida! O processo foi super tranquilo e o filhote chegou saudável e amoroso."</p>
+          <div class="autor">— Ana & família</div>
+        </div>
+        <div class="dep">
+          <div class="estrelas">★★★★★</div>
+          <p>"Atendimento nota 10. Tiraram todas as minhas dúvidas e o suporte depois foi excelente."</p>
+          <div class="autor">— Carlos M.</div>
+        </div>
+        <div class="dep">
+          <div class="estrelas">★★★★★</div>
+          <p>"O cachorrinho é exatamente como prometido: dócil, brincalhão e cheio de saúde. Recomendo demais!"</p>
+          <div class="autor">— Juliana R.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <div class="container">
+      <h2 class="section-titulo">Perguntas frequentes ❓</h2>
+      <p class="section-sub">Tudo que você precisa saber antes de levar o Pipoca</p>
+      <div class="faq-item" onclick="this.classList.toggle('aberto')">
+        <h3>O Pipoca é vacinado? <span>+</span></h3>
+        <p>Sim! Ele está com todas as vacinas e vermífugos da idade em dia, e vai com atestado de saúde do veterinário.</p>
+      </div>
+      <div class="faq-item" onclick="this.classList.toggle('aberto')">
+        <h3>Como funciona a entrega? <span>+</span></h3>
+        <p>Combinamos a retirada ou entrega com segurança após uma conversa pelo WhatsApp. Tudo de forma transparente.</p>
+      </div>
+      <div class="faq-item" onclick="this.classList.toggle('aberto')">
+        <h3>Posso parcelar? <span>+</span></h3>
+        <p>Sim, oferecemos pagamento à vista com desconto ou parcelamento em até 6x sem juros.</p>
+      </div>
+      <div class="faq-item" onclick="this.classList.toggle('aberto')">
+        <h3>E se eu tiver dúvidas depois? <span>+</span></h3>
+        <p>Você conta com suporte pós-adoção. Estamos sempre disponíveis para ajudar nos primeiros dias e além.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section>
+    <div class="cta-final">
+      <h2>O Pipoca está te esperando 🐶💚</h2>
+      <p>Não perca essa chance. É só um Pipoca disponível e ele pode ser seu hoje mesmo!</p>
+      <a href="#" class="btn btn-grande" onclick="comprar(event)">Quero adotar agora 💬</a>
+    </div>
+  </section>
+
+  <!-- RODAPÉ -->
+  <footer>
+    <div class="logo">🐶 Pip<span style="color: var(--cor-secundaria)">oca</span></div>
+    <div class="redes">
+      <a href="#" title="Instagram">📷</a>
+      <a href="#" title="WhatsApp">💬</a>
+      <a href="#" title="Facebook">👍</a>
+    </div>
+    <small>Adoção responsável • Feito com 💛 • © 2026 Pipoca</small>
+  </footer>
+
+  <!-- BOTÃO FLUTUANTE WHATSAPP -->
+  <a href="#" class="float-wpp" title="Fale conosco" onclick="comprar(event)">💬</a>
+
+  <script>
+    // Troque pelo número real (formato internacional, só dígitos): 55 + DDD + número
+    const WHATSAPP = "5511999999999";
+    function comprar(e) {
+      e.preventDefault();
+      const msg = encodeURIComponent("Olá! Tenho interesse em adotar o Pipoca 🐶. Pode me passar mais informações?");
+      window.open("https://wa.me/" + WHATSAPP + "?text=" + msg, "_blank");
+    }
+  </script>
+
+</body>
+</html>
