@@ -115,6 +115,26 @@
     .galeria-item:hover { transform: scale(1.05) rotate(-2deg); }
     .galeria-item img { width: 100%; height: 100%; object-fit: cover; }
 
+    /* ===== GALERIA VIRA CARROSSEL NO CELULAR ===== */
+    .dica-carrossel { display: none; text-align: center; color: #8a7866; margin-top: 14px; font-size: 0.95rem; }
+    @media (max-width: 700px) {
+      .galeria-grid {
+        display: flex;
+        overflow-x: auto;
+        gap: 14px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 14px;
+        scrollbar-width: none;            /* esconde a barra de rolagem (Firefox) */
+      }
+      .galeria-grid::-webkit-scrollbar { display: none; } /* esconde no Chrome/Safari */
+      .galeria-item {
+        flex: 0 0 78%;                    /* cada foto ocupa 78% da tela */
+        scroll-snap-align: center;        /* "encaixa" no centro ao deslizar */
+      }
+      .dica-carrossel { display: block; } /* mostra o aviso de "arraste" */
+    }
+
     /* ===== PREÇO / OFERTA ===== */
     .oferta { background: linear-gradient(135deg, var(--cor-clara), #fff0db); }
     .card-preco {
@@ -254,13 +274,14 @@
         <div class="galeria-item"><img src="fotos/foto7.jpg" alt="Pipoca" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'🐾'}))" /></div>
         <div class="galeria-item"><img src="fotos/foto8.jpg" alt="Pipoca" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'💛'}))" /></div>
       </div>
+      <p class="dica-carrossel">👈 arraste para o lado para ver mais fotos 👉</p>
     </div>
   </section>
 
   <!-- PREÇO / OFERTA -->
   <section class="oferta" id="comprar">
     <div class="container">
-      <h2 class="section-titulo">Garanta já o seu Pipoca 💚</h2>
+      <h2 class="section-titulo">Garanta já a sua Pipoca 💚</h2>
       <p class="section-sub">Vaga única — quem chegar primeiro leva!</p>
       <div class="card-preco">
         <div class="selo">⭐ Oferta de lançamento</div>
