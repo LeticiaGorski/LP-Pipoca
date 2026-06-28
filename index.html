@@ -235,6 +235,12 @@
       animation: pulso 2s infinite;
     }
     @keyframes pulso { 0% { box-shadow: 0 0 0 0 rgba(214,32,110,0.5); } 70% { box-shadow: 0 0 0 16px rgba(214,32,110,0); } 100% { box-shadow: 0 0 0 0 rgba(214,32,110,0); } }
+
+    /* ===== ANIMAÇÃO DE ENTRADA AO ROLAR ===== */
+    @media (prefers-reduced-motion: no-preference) {
+      .js-anim .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.6s ease, transform 0.6s ease; }
+      .js-anim .reveal.visivel { opacity: 1; transform: none; }
+    }
   </style>
 </head>
 <body>
@@ -478,6 +484,28 @@
       const msg = encodeURIComponent("Olá! Tenho interesse em adotar a Pipoca 🐶. Pode me passar mais informações?");
       window.open("https://wa.me/" + WHATSAPP + "?text=" + msg, "_blank");
     }
+
+    // Animação de entrada: itens aparecem suavemente ao rolar a página
+    (function () {
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      document.body.classList.add('js-anim');
+      var seletor = '.card, .passo, .galeria-item, .dep, .faq-item, .garantia-lista li, .sobre-foto, .sobre-texto, .card-preco, .section-titulo, .section-sub';
+      var itens = document.querySelectorAll(seletor);
+      itens.forEach(function (el) {
+        el.classList.add('reveal');
+        var i = Array.prototype.indexOf.call(el.parentNode.children, el);
+        el.style.transitionDelay = Math.min(i, 6) * 0.08 + 's';
+      });
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            e.target.classList.add('visivel');
+            obs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      itens.forEach(function (el) { obs.observe(el); });
+    })();
   </script>
 
 </body>
