@@ -135,6 +135,42 @@
       .dica-carrossel { display: block; } /* mostra o aviso de "arraste" */
     }
 
+    /* ===== SOBRE A PIPOCA ===== */
+    .sobre { background: #fff; }
+    .sobre-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+    .sobre-foto {
+      background: linear-gradient(135deg, var(--cor-secundaria), var(--cor-principal));
+      border-radius: 24px; aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+      font-size: 8rem; box-shadow: var(--sombra); overflow: hidden;
+    }
+    .sobre-foto img { width: 100%; height: 100%; object-fit: cover; }
+    .sobre-texto h2 { font-size: 2rem; margin-bottom: 16px; color: var(--cor-principal); }
+    .sobre-texto p { margin-bottom: 14px; font-size: 1.05rem; }
+    .sobre-ficha { list-style: none; margin-top: 18px; }
+    .sobre-ficha li { margin-bottom: 8px; }
+    .sobre-ficha li strong { color: var(--cor-destaque); }
+    @media (max-width: 768px) { .sobre-grid { grid-template-columns: 1fr; text-align: center; } .sobre-foto { max-width: 300px; margin: 0 auto; font-size: 6rem; } }
+
+    /* ===== COMO FUNCIONA ===== */
+    .passos { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 28px; }
+    .passo { text-align: center; padding: 30px 24px; }
+    .passo-num {
+      width: 64px; height: 64px; margin: 0 auto 18px; border-radius: 50%;
+      background: var(--cor-destaque); color: #fff; font-size: 1.8rem; font-weight: 800;
+      display: flex; align-items: center; justify-content: center; box-shadow: var(--sombra);
+    }
+    .passo h3 { color: var(--cor-destaque); margin-bottom: 10px; }
+
+    /* ===== CUIDADOS E GARANTIAS ===== */
+    .garantias { background: linear-gradient(135deg, var(--cor-clara), #fff0db); }
+    .garantia-box {
+      max-width: 800px; margin: 0 auto; background: #fff; border-radius: 24px;
+      padding: 44px 40px; box-shadow: var(--sombra); border: 2px solid var(--cor-secundaria);
+    }
+    .garantia-lista { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 18px 30px; }
+    .garantia-lista li strong { display: block; color: var(--cor-destaque); margin-bottom: 4px; }
+    @media (max-width: 600px) { .garantia-lista { grid-template-columns: 1fr; } .garantia-box { padding: 32px 24px; } }
+
     /* ===== PREÇO / OFERTA ===== */
     .oferta { background: linear-gradient(135deg, var(--cor-clara), #fff0db); }
     .card-preco {
@@ -234,6 +270,25 @@
     </div>
   </section>
 
+  <!-- SOBRE A PIPOCA -->
+  <section class="sobre" id="sobre">
+    <div class="container sobre-grid">
+      <div class="sobre-foto">
+        <img src="fotos/sobre.jpg" alt="A Pipoca" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'🐶'}))" />
+      </div>
+      <div class="sobre-texto">
+        <h2>Quem é a Pipoca? 🐾</h2>
+        <p>A Pipoca é pura alegria em forma de cachorrinha! Daquelas que abanam o rabo o dia inteiro e enchem a casa de amor e companhia.</p>
+        <p>Brincalhona, carinhosa e cheia de energia, ela adora colo, passeios e fazer novos amigos — sejam pessoas ou outros pets.</p>
+        <ul class="sobre-ficha">
+          <li><strong>Idade:</strong> filhote</li>
+          <li><strong>Personalidade:</strong> dócil e brincalhona</li>
+          <li><strong>Petisco favorito:</strong> tudo! 😋</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
   <!-- O QUE ESTÁ INCLUSO -->
   <section class="features">
     <div class="container">
@@ -275,6 +330,31 @@
         <div class="galeria-item"><img src="fotos/foto8.jpg" alt="Pipoca" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'💛'}))" /></div>
       </div>
       <p class="dica-carrossel">👈 arraste para o lado para ver mais fotos 👉</p>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA -->
+  <section id="como-funciona">
+    <div class="container">
+      <h2 class="section-titulo">Como levar a Pipoca pra casa 🏡</h2>
+      <p class="section-sub">Simples, rápido e seguro — em 3 passos</p>
+      <div class="passos">
+        <div class="passo">
+          <div class="passo-num">1</div>
+          <h3>Entre em contato</h3>
+          <p>Clique em um dos botões e fale com a gente pelo WhatsApp. Tire todas as suas dúvidas.</p>
+        </div>
+        <div class="passo">
+          <div class="passo-num">2</div>
+          <h3>A gente conversa</h3>
+          <p>Contamos tudo sobre a Pipoca e combinamos os detalhes com calma e transparência.</p>
+        </div>
+        <div class="passo">
+          <div class="passo-num">3</div>
+          <h3>Leve pra casa</h3>
+          <p>Combinamos a entrega ou retirada com segurança e a Pipoca vai pro lar dela. 🎉</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -321,6 +401,24 @@
           <p>"A cachorrinha é exatamente como prometida: dócil, brincalhona e cheia de saúde. Recomendo demais!"</p>
           <div class="autor">— Juliana R.</div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CUIDADOS E GARANTIAS -->
+  <section class="garantias">
+    <div class="container">
+      <h2 class="section-titulo">Cuidados & Garantias 💚</h2>
+      <p class="section-sub">Adoção responsável, do início ao fim</p>
+      <div class="garantia-box">
+        <ul class="garantia-lista">
+          <li><strong>💉 Saúde em dia</strong> Vacinada, vermifugada e com atestado do veterinário.</li>
+          <li><strong>🩺 Checkup completo</strong> Avaliada por profissional antes de ir pra casa.</li>
+          <li><strong>❤️ Bem-estar garantido</strong> Criada com carinho, em ambiente limpo e seguro.</li>
+          <li><strong>📋 Compromisso responsável</strong> Orientamos sobre os cuidados e o dia a dia.</li>
+          <li><strong>🐾 Já socializada</strong> Acostumada com pessoas e outros animais.</li>
+          <li><strong>🤝 Transparência total</strong> Você acompanha cada etapa com segurança.</li>
+        </ul>
       </div>
     </div>
   </section>
