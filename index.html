@@ -245,8 +245,8 @@
 
     /* ===== ANIMAÇÃO DE ENTRADA AO ROLAR ===== */
     @media (prefers-reduced-motion: no-preference) {
-      .js-anim .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.6s ease, transform 0.6s ease; }
-      .js-anim .reveal.visivel { opacity: 1; transform: none; }
+      .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.6s ease, transform 0.6s ease; }
+      .reveal.visivel { opacity: 1; transform: none; }
     }
   
   </style>
@@ -268,13 +268,45 @@
 
   <!-- Componentes React (Babel converte o JSX no navegador) -->
   <script type="text/babel" data-presets="react">
-    const { useState, useEffect } = React;
+    const { useState, useEffect, useRef } = React;
 
     // Abre o WhatsApp com a mensagem pronta
     function falarWhatsApp(e) {
       if (e) e.preventDefault();
       const msg = encodeURIComponent("Olá! Tenho interesse em adotar a Pipoca 🐶. Pode me passar mais informações?");
       window.open("https://wa.me/" + window.WHATSAPP + "?text=" + msg, "_blank");
+    }
+
+    // ===== Reveal: anima qualquer elemento ao aparecer na tela (jeito React) =====
+    function Reveal({ children, delay = 0 }) {
+      const ref = useRef(null);
+      const [visivel, setVisivel] = useState(false);
+
+      useEffect(() => {
+        const el = ref.current;
+        if (!el) return;
+        // Respeita quem prefere menos movimento: mostra direto, sem animar
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          setVisivel(true);
+          return;
+        }
+        const obs = new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting) {
+            setVisivel(true);
+            obs.unobserve(el);
+          }
+        }, { threshold: 0.12 });
+        obs.observe(el);
+        return () => obs.disconnect();
+      }, []);
+
+      // Aplica a classe a partir do ESTADO (declarativo), sem mexer no DOM na mão
+      const classeBase = children.props.className || '';
+      return React.cloneElement(children, {
+        ref: ref,
+        className: classeBase + ' reveal' + (visivel ? ' visivel' : ''),
+        style: Object.assign({}, children.props.style, { transitionDelay: delay + 's' }),
+      });
     }
 
     // ===== Dados (listas reutilizáveis) =====
@@ -354,16 +386,18 @@
       return (
         <section className="sobre" id="sobre">
           <div className="container sobre-solo">
-            <div className="sobre-texto">
-              <h2>Quem é a Pipoca? 🐾</h2>
-              <p>A Pipoca é pura alegria em forma de cachorrinha! Daquelas que abanam o rabo o dia inteiro e enchem a casa de amor e companhia.</p>
-              <p>Brincalhona, carinhosa e cheia de energia, ela adora colo, passeios e fazer novos amigos — sejam pessoas ou outros pets.</p>
-              <ul className="sobre-ficha">
-                <li><strong>Idade:</strong> filhote</li>
-                <li><strong>Personalidade:</strong> dócil e brincalhona</li>
-                <li><strong>Petisco favorito:</strong> tudo! 😋</li>
-              </ul>
-            </div>
+            <Reveal>
+              <div className="sobre-texto">
+                <h2>Quem é a Pipoca? 🐾</h2>
+                <p>A Pipoca é pura alegria em forma de cachorrinha! Daquelas que abanam o rabo o dia inteiro e enchem a casa de amor e companhia.</p>
+                <p>Brincalhona, carinhosa e cheia de energia, ela adora colo, passeios e fazer novos amigos — sejam pessoas ou outros pets.</p>
+                <ul className="sobre-ficha">
+                  <li><strong>Idade:</strong> filhote</li>
+                  <li><strong>Personalidade:</strong> dócil e brincalhona</li>
+                  <li><strong>Petisco favorito:</strong> tudo! 😋</li>
+                </ul>
+              </div>
+            </Reveal>
           </div>
         </section>
       );
@@ -373,15 +407,17 @@
       return (
         <section className="features">
           <div className="container">
-            <h2 className="section-titulo">A Pipoca já vai pra casa com tudo isso 🎁</h2>
-            <p className="section-sub">Adoção responsável, sem dor de cabeça</p>
+            <Reveal><h2 className="section-titulo">A Pipoca já vai pra casa com tudo isso 🎁</h2></Reveal>
+            <Reveal><p className="section-sub">Adoção responsável, sem dor de cabeça</p></Reveal>
             <div className="cards">
               {CARDS.map((c, i) => (
-                <div className="card" key={i}>
-                  <div className="icone">{c.icone}</div>
-                  <h3>{c.titulo}</h3>
-                  <p>{c.texto}</p>
-                </div>
+                <Reveal delay={i * 0.08} key={i}>
+                  <div className="card">
+                    <div className="icone">{c.icone}</div>
+                    <h3>{c.titulo}</h3>
+                    <p>{c.texto}</p>
+                  </div>
+                </Reveal>
               ))}
             </div>
           </div>
@@ -393,13 +429,15 @@
       return (
         <section id="galeria">
           <div className="container">
-            <h2 className="section-titulo">Conheça a Pipoca 📸</h2>
-            <p className="section-sub">Impossível não se apaixonar 🥰</p>
+            <Reveal><h2 className="section-titulo">Conheça a Pipoca 📸</h2></Reveal>
+            <Reveal><p className="section-sub">Impossível não se apaixonar 🥰</p></Reveal>
             <div className="galeria-grid">
               {window.FOTOS.map((src, i) => (
-                <div className="galeria-item" key={i}>
-                  <img src={src} alt={"Pipoca foto " + (i + 1)} />
-                </div>
+                <Reveal delay={i * 0.08} key={i}>
+                  <div className="galeria-item">
+                    <img src={src} alt={"Pipoca foto " + (i + 1)} />
+                  </div>
+                </Reveal>
               ))}
             </div>
             <p className="dica-carrossel">👈 arraste para o lado para ver mais fotos 👉</p>
@@ -412,15 +450,17 @@
       return (
         <section id="como-funciona">
           <div className="container">
-            <h2 className="section-titulo">Como levar a Pipoca pra casa 🏡</h2>
-            <p className="section-sub">Simples, rápido e seguro — em 3 passos</p>
+            <Reveal><h2 className="section-titulo">Como levar a Pipoca pra casa 🏡</h2></Reveal>
+            <Reveal><p className="section-sub">Simples, rápido e seguro — em 3 passos</p></Reveal>
             <div className="passos">
-              {PASSOS.map((p) => (
-                <div className="passo" key={p.n}>
-                  <div className="passo-num">{p.n}</div>
-                  <h3>{p.titulo}</h3>
-                  <p>{p.texto}</p>
-                </div>
+              {PASSOS.map((p, i) => (
+                <Reveal delay={i * 0.08} key={p.n}>
+                  <div className="passo">
+                    <div className="passo-num">{p.n}</div>
+                    <h3>{p.titulo}</h3>
+                    <p>{p.texto}</p>
+                  </div>
+                </Reveal>
               ))}
             </div>
           </div>
@@ -432,22 +472,24 @@
       return (
         <section className="oferta" id="comprar">
           <div className="container">
-            <h2 className="section-titulo">Garanta já a sua Pipoca 💗</h2>
-            <p className="section-sub">Vaga única — quem chegar primeiro leva!</p>
-            <div className="card-preco">
-              <div className="selo">⭐ Oferta de lançamento</div>
-              <p className="preco-antigo">De R$ 1.200</p>
-              <div className="preco-atual">R$ 890 <small>à vista</small></div>
-              <p style={{ color: "#888" }}>ou em até 6x sem juros</p>
-              <ul className="preco-lista">
-                <li>Filhotinha vacinada e vermifugada</li>
-                <li>Atestado veterinário incluso</li>
-                <li>Kit boas-vindas completo</li>
-                <li>Suporte pós-adoção</li>
-              </ul>
-              <a href="#" className="btn btn-grande" onClick={falarWhatsApp}>Falar no WhatsApp agora 💬</a>
-              <p style={{ marginTop: 16, fontSize: "0.9rem", color: "#888" }}>🔒 Adoção responsável e segura</p>
-            </div>
+            <Reveal><h2 className="section-titulo">Garanta já a sua Pipoca 💗</h2></Reveal>
+            <Reveal><p className="section-sub">Vaga única — quem chegar primeiro leva!</p></Reveal>
+            <Reveal>
+              <div className="card-preco">
+                <div className="selo">⭐ Oferta de lançamento</div>
+                <p className="preco-antigo">De R$ 1.200</p>
+                <div className="preco-atual">R$ 890 <small>à vista</small></div>
+                <p style={{ color: "#888" }}>ou em até 6x sem juros</p>
+                <ul className="preco-lista">
+                  <li>Filhotinha vacinada e vermifugada</li>
+                  <li>Atestado veterinário incluso</li>
+                  <li>Kit boas-vindas completo</li>
+                  <li>Suporte pós-adoção</li>
+                </ul>
+                <a href="#" className="btn btn-grande" onClick={falarWhatsApp}>Falar no WhatsApp agora 💬</a>
+                <p style={{ marginTop: 16, fontSize: "0.9rem", color: "#888" }}>🔒 Adoção responsável e segura</p>
+              </div>
+            </Reveal>
           </div>
         </section>
       );
@@ -457,15 +499,17 @@
       return (
         <section className="depoimentos">
           <div className="container">
-            <h2 className="section-titulo">Famílias que já levaram uma amiga pra casa 🏡</h2>
-            <p className="section-sub">Histórias reais de muito amor</p>
+            <Reveal><h2 className="section-titulo">Famílias que já levaram uma amiga pra casa 🏡</h2></Reveal>
+            <Reveal><p className="section-sub">Histórias reais de muito amor</p></Reveal>
             <div className="dep-grid">
               {DEPOIMENTOS.map((d, i) => (
-                <div className="dep" key={i}>
-                  <div className="estrelas">★★★★★</div>
-                  <p>"{d.texto}"</p>
-                  <div className="autor">{d.autor}</div>
-                </div>
+                <Reveal delay={i * 0.08} key={i}>
+                  <div className="dep">
+                    <div className="estrelas">★★★★★</div>
+                    <p>"{d.texto}"</p>
+                    <div className="autor">{d.autor}</div>
+                  </div>
+                </Reveal>
               ))}
             </div>
           </div>
@@ -477,12 +521,14 @@
       return (
         <section className="garantias">
           <div className="container">
-            <h2 className="section-titulo">Cuidados &amp; Garantias 💗</h2>
-            <p className="section-sub">Adoção responsável, do início ao fim</p>
+            <Reveal><h2 className="section-titulo">Cuidados &amp; Garantias 💗</h2></Reveal>
+            <Reveal><p className="section-sub">Adoção responsável, do início ao fim</p></Reveal>
             <div className="garantia-box">
               <ul className="garantia-lista">
                 {GARANTIAS.map((g, i) => (
-                  <li key={i}><strong>{g.titulo}</strong> {g.texto}</li>
+                  <Reveal delay={i * 0.08} key={i}>
+                    <li><strong>{g.titulo}</strong> {g.texto}</li>
+                  </Reveal>
                 ))}
               </ul>
             </div>
@@ -491,13 +537,15 @@
       );
     }
 
-    function FaqItem({ pergunta, resposta }) {
+    function FaqItem({ pergunta, resposta, delay }) {
       const [aberto, setAberto] = useState(false);
       return (
-        <div className={"faq-item" + (aberto ? " aberto" : "")} onClick={() => setAberto(!aberto)}>
-          <h3>{pergunta} <span>+</span></h3>
-          <p>{resposta}</p>
-        </div>
+        <Reveal delay={delay}>
+          <div className={"faq-item" + (aberto ? " aberto" : "")} onClick={() => setAberto(!aberto)}>
+            <h3>{pergunta} <span>+</span></h3>
+            <p>{resposta}</p>
+          </div>
+        </Reveal>
       );
     }
 
@@ -505,10 +553,10 @@
       return (
         <section>
           <div className="container">
-            <h2 className="section-titulo">Perguntas frequentes ❓</h2>
-            <p className="section-sub">Tudo que você precisa saber antes de levar a Pipoca</p>
+            <Reveal><h2 className="section-titulo">Perguntas frequentes ❓</h2></Reveal>
+            <Reveal><p className="section-sub">Tudo que você precisa saber antes de levar a Pipoca</p></Reveal>
             {FAQS.map((f, i) => (
-              <FaqItem pergunta={f.p} resposta={f.r} key={i} />
+              <FaqItem pergunta={f.p} resposta={f.r} delay={i * 0.08} key={i} />
             ))}
           </div>
         </section>
@@ -547,28 +595,6 @@
 
     // ===== App: junta todas as peças =====
     function App() {
-      // Animação de entrada ao rolar a página
-      useEffect(() => {
-        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        document.body.classList.add('js-anim');
-        const seletor = '.card, .passo, .galeria-item, .dep, .faq-item, .garantia-lista li, .sobre-texto, .card-preco, .section-titulo, .section-sub';
-        const itens = document.querySelectorAll(seletor);
-        itens.forEach((el) => {
-          el.classList.add('reveal');
-          const i = Array.prototype.indexOf.call(el.parentNode.children, el);
-          el.style.transitionDelay = Math.min(i, 6) * 0.08 + 's';
-        });
-        const obs = new IntersectionObserver((entries) => {
-          entries.forEach((e) => {
-            if (e.isIntersecting) {
-              e.target.classList.add('visivel');
-              obs.unobserve(e.target);
-            }
-          });
-        }, { threshold: 0.12 });
-        itens.forEach((el) => obs.observe(el));
-      }, []);
-
       return (
         <React.Fragment>
           <Topbar />
